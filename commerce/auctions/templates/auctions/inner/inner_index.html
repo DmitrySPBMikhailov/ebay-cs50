@@ -1,0 +1,44 @@
+{% load static %}
+<div class="col-3">
+    {% if listing.image %}
+        <div class="listings_img_wrapper">
+            <a href="{% url 'ListingView' listing.pk %}">
+                <img class="listings_image" src="{{ listing.image.url }}" alt="{{ listing.title }}">
+            </a>
+            {% if user.is_authenticated %}
+                {% if listing.watch %}
+                    <img hx-post="{% url 'remove_from_watch_list_htmx' listing.pk %}" hx-target=".mylisting{{ listing.pk }}" hx-swap="innerHTML" class="listings_image_follow" src="{% static 'img/heart-red.png' %}" alt="unfollow">
+                {% else %}
+                    <img hx-post="{% url 'add_to_watch_list_htmx' listing.pk %}" hx-target=".mylisting{{ listing.pk }}" hx-swap="innerHTML" class="listings_image_follow" src="{% static 'img/heart.png' %}" alt="follow">
+                {% endif %}
+            {% endif %}
+        </div>
+    {% else %}
+        <div class="listings_noimg_wrapper">
+            <a href="{% url 'ListingView' listing.pk %}" class="no_decoration"><div class="listings_noimg_info">The product is at a photo session</div></a>
+            {% if user.is_authenticated %}
+                {% if listing.watch %}
+                    <img hx-post="{% url 'remove_from_watch_list_htmx' listing.pk %}" hx-target=".mylisting{{ listing.pk }}" hx-swap="innerHTML" class="listings_image_follow" src="{% static 'img/heart-red.png' %}" alt="unfollow">
+                {% else %}
+                    <img hx-post="{% url 'add_to_watch_list_htmx' listing.pk %}" hx-target=".mylisting{{ listing.pk }}" hx-swap="innerHTML" class="listings_image_follow" src="{% static 'img/heart.png' %}" alt="follow">
+                {% endif %}
+            {% endif %}
+        </div>
+    {% endif %}
+</div>
+<div class="col">
+    <div class="row">
+        <div><a href="{% url 'ListingView' listing.pk %}">{{ listing.title }}</a></div>
+        <div>{{ listing.description|default_if_none:"--" }}</div>
+        <div>${{ listing.price }}</div>
+        <div>{{ listing.created }}</div>
+        {% if listing.followed == 0 %}
+            <div>Be the first one to follow!</div>
+            
+        {% elif listing.followed == 1 %}
+            <div>Followed by {{ listing.followed }} person</div>
+        {% else %}
+            <div>Followed by {{ listing.followed }} people</div>
+        {% endif %}
+    </div>
+</div>

@@ -1,0 +1,19 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    {% if cat %}
+        <h2>Active Listings ({{ cat.name }})</h2>
+    {% else %}
+        <h2>Active Listings</h2>
+    {% endif %}
+    {% for listing in listings %}
+    <div class="row border py-2 listings mylisting{{ listing.pk }}">
+        {% include 'auctions/inner/inner_index.html' %}
+    </div>
+    {% empty %}
+    <div class="row">
+        <div class="col">No listings yet</div>
+    </div>
+    {% endfor %}
+
+{% endblock %}

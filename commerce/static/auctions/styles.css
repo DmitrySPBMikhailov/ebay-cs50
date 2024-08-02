@@ -1,0 +1,44 @@
+.listings_img_wrapper {
+    position: relative;
+}
+
+.listings_noimg_wrapper {
+    position: relative;
+    max-width:264px;
+}
+
+.listings_image {
+    max-height:180px; 
+    max-width:170px;
+}
+
+.listings_image_follow {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    width: 26px;
+    cursor: pointer;
+}
+
+.listings_noimg_info {
+    max-width:200px;
+}
+
+.view_image {
+    max-height:480px; 
+    max-width:470px;
+}
+
+.no_decoration {
+    text-decoration: none;
+    color: black;
+}
+
+#close_auction {
+    margin-top: 50px;
+}
+
+.footer {
+    margin-top: 40px;
+    height: 50px;
+}

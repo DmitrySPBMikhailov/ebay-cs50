@@ -1,0 +1,15 @@
+{% extends "auctions/layout.html" %}
+{% load crispy_forms_tags %}
+
+{% block body %}
+    <h2>Categories</h2>
+
+    <ul>
+    {% for category in object_list %}
+        <li><a href="{% url 'index' %}?filter={{ category.pk }}">{{ category.name }}</a></li>
+    {% empty %}
+        <li>No categories yet.</li>
+    {% endfor %}
+    </ul>
+
+{% endblock %}

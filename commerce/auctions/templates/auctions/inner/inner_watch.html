@@ -1,0 +1,40 @@
+{% load static %}
+{% for listing in watch_list %}
+    <div class="row border py-2 listings">
+        <div class="col-3">
+            {% if listing.item.image %}
+                <div class="listings_img_wrapper">
+                    <a href="{% url 'ListingView' listing.item.pk %}">
+                        <img class="listings_image" src="{{ listing.item.image.url }}" alt="{{ listing.item.title }}">
+                    </a>
+                    <img hx-post="{% url 'remove_from_watch_list_htmx_hard' listing.item.pk %}" hx-target="#watch-list" hx-swap="innerHTML" class="listings_image_follow" src="{% static 'img/heart-red.png' %}" alt="unfollow">
+                </div>
+            {% else %}
+                <div class="listings_noimg_wrapper">
+                    <a href="{% url 'ListingView' listing.item.pk %}" class="no_decoration"><div class="listings_noimg_info">The product is at a photo session</div></a>
+                    <img hx-post="{% url 'remove_from_watch_list_htmx_hard' listing.item.pk %}" hx-target="#watch-list" hx-swap="innerHTML" class="listings_image_follow" src="{% static 'img/heart-red.png' %}" alt="unfollow">
+                </div>
+            {% endif %}
+        </div>
+        <div class="col">
+            <div class="row">
+                <div><a href="{% url 'ListingView' listing.item.pk %}">{{ listing.item.title }}</a></div>
+                <div>{{ listing.item.description|default_if_none:"--" }}</div>
+                <div>${{ listing.item.price }}</div>
+                <div>{{ listing.item.created }}</div>
+                {% if listing.item.followed == 0 %}
+                    <div>Be the first one to follow!</div>
+                    
+                {% elif listing.item.followed == 1 %}
+                    <div>Followed by {{ listing.item.followed }} person</div>
+                {% else %}
+                    <div>Followed by {{ listing.item.followed }} people</div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="row">
+        <div class="col">No listings in your watch list yet</div>
+    </div>
+{% endfor %}

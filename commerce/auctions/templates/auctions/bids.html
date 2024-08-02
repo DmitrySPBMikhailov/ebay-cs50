@@ -1,0 +1,48 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2>My Bids</h2>
+
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Title</th>
+            <th scope="col">Category</th>
+            <th scope="col">Active</th>
+            <th scope="col">Bid</th>
+            <th scope="col">Leader</th>
+            <th scope="col">Victory</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for bid in my_bids %}
+          <tr>
+            <th scope="row"><a href="{% url 'ListingView' bid.item.pk %}">{{ bid.item.title }}</a></th>
+            <td>{{ bid.item.category }}</td>
+            {% if bid.item.active %}
+              <td>Yes</td>
+            {% else %}
+              <td>No</td>
+            {% endif %}
+            <td>{{ bid.price }}</td>
+            {% if bid.leader %}
+              <td>Yes</td>
+            {% else %}
+              <td>No</td>
+            {% endif %}
+            {% if bid.item.active %}
+                <td>Bidding</td>
+            {% else %}
+                {% if request.user == bid.item.winner %}
+                <td>Won</td>
+                {% else %}
+                <td>No</td>
+                {% endif %}
+            {% endif %}
+          </tr>
+          {% empty %}
+            No bids yet
+          {% endfor %}
+        </tbody>
+      </table>
+{% endblock %}
